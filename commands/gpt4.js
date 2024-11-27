@@ -1,30 +1,73 @@
-const axios = require("axios");
-const name = "ai" ;
+const axios = require('axios');
+const { sendMessage } = require('../handles/sendMessage');
+const fs = require('fs');
+
+const token = fs.readFileSync('token.txt', 'utf8');
 
 module.exports = {
-  name,
-  description: "Interact with ChatGPT-4o",
-  async run ({ api, event, send, args }){
-    const prompt = args.join(" ");
-    if (!prompt) return send(`Please enter your question! 
+  name: 'ai',
+  description: 'Interact Free GPT - OpenAI.',
+  author: 'Arn',// api by kenlie
 
-Example: ${api.prefix + name} what is love?`);
-    send("JayChat is typing... 🔎");
-    try {
-    const gpt = await axios.get(`${api.api_josh}/api/gpt-4o`, {
-      params: {
-        q: prompt,
-        uid: event.sender.id
-      }
-    });
-    if (!gpt || !gpt.data.status)
-    throw new Error();
-    send(`${gpt.data.result}
-
-🤖 JayChat by Jay Ar`);
-    } catch(err){
-      send(err.message || err);
-      return;
+  async execute(senderId, args) {
+    const pageAccessToken = token;
+    const query = args.join(" ").toLowerCase();
+    if (!query) {
+      return await sendMessage(senderId, { text: "How can I help you?" }, pageAccessToken);
     }
+
+    if (query === "hello" || query === "hi") {
+      return await sendMessage(senderId, { text: "Hello! How can I help you?" }, pageAccessToken);
+    }
+
+    await handleChatResponse(senderId, query, pageAccessToken);
+  },
+};
+
+const handleChatResponse = async (senderId, input, pageAccessToken) => {
+  const apiUrl = "https://api.kenliejugarap.com/freegpt-openai/?";
+
+  try {
+    const { data } = await axios.get(apiUrl, { params: { question: input } });
+    let response = data.response;
+
+    sendMessage(senderId, { text: 'JayChat Answering...' }, pageAccessToken);
+
+    const responseTime = new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila', hour12: true });
+    const formattedResponse = `${response}`;
+
+    await sendConcatenatedMessage(senderId, formattedResponse, pageAccessToken);
+  } catch (error) {
+    console.error('Error while processing AI response:', error.message);
+    await sendError(senderId, '❌ Error.', pageAccessToken);
   }
+};
+
+const sendConcatenatedMessage = async (senderId, text, pageAccessToken) => {
+  const maxMessageLength = 2000;
+
+  if (text.length > maxMessageLength) {
+    const messages = splitMessageIntoChunks(text, maxMessageLength);
+    for (const message of messages) {
+      await new Promise(resolve => setTimeout(resolve, 500));
+      await sendMessage(senderId, { text: message }, pageAccessToken);
+    }
+  } else {
+    await sendMessage(senderId, { text }, pageAccessToken);
   }
+};
+
+const splitMessageIntoChunks = (message, chunkSize) => {
+  const chunks = [];
+  for (let i = 0; i < message.length; i += chunkSize) {
+    chunks.push(message.slice(i, i + chunkSize));
+  }
+  return chunks;
+};
+
+const sendError = async (senderId, errorMessage, pageAccessToken) => {
+  const responseTime = new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila', hour12: true });
+  const formattedMessage = `${errorMessage}`;
+
+  await sendMessage(senderId, { text: formattedMessage }, pageAccessToken);
+};
