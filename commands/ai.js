@@ -4,7 +4,7 @@ const fs = require('fs');
 const token = fs.readFileSync('token.txt', 'utf8');
 
 // [ true if turn on font & false if turn off ]
-const useFontFormatting = false;
+const useFontFormatting = true;
 
 module.exports = {
   name: 'ai',
@@ -21,8 +21,8 @@ module.exports = {
       return await sendMessage(senderId, { text: formattedMessage }, pageAccessToken);
     }
 
-    if (query === "My creator is Jay Ar" || query === "who created you?") {
-      const jokeMessage = "Jaytot";
+    if (query === "Kinsay nag himo nimo?" || query === "who created you?") {
+      const jokeMessage = "Jay Ar";
       const formattedMessage = useFontFormatting ? formatResponse(jokeMessage) : jokeMessage;
       return await sendMessage(senderId, { text: formattedMessage }, pageAccessToken);
     }
