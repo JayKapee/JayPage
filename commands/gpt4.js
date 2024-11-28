@@ -7,7 +7,7 @@ const token = fs.readFileSync('token.txt', 'utf8');
 const useFontFormatting = true;
 
 module.exports = {
-  name: 'ai',
+  name: 'gpt4',
   description: 'Interact to Free GPT - OpenAI.',
   author: 'Jay Ar', // API by Kenlie Navacilla Jugarap
 
