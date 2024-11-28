@@ -4,10 +4,10 @@ const fs = require('fs');
 const token = fs.readFileSync('token.txt', 'utf8');
 
 // [ true if turn on font & false if turn off ]
-const useFontFormatting = true;
+const useFontFormatting = false;
 
 module.exports = {
-  name: 'gpt4',
+  name: 'ai',
   description: 'Interact to Free GPT - OpenAI.',
   author: 'Jay Ar', // API by Kenlie Navacilla Jugarap
 
