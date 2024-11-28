@@ -45,11 +45,11 @@ const handleChatResponse = async (senderId, input, pageAccessToken) => {
     await sendMessage(senderId, { text: formattedAnsweringMessage }, pageAccessToken);
 
     const defaultMessage = `JayChat
-━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━
 ❓Question: ${input}
-━━━━━━━━━━━━━━━━ 
+━━━━━━━━━━━━━━
 ✅ Answer: ${response}
-━━━━━━━━━━━━━━━━ 
+━━━━━━━━━━━━━━
 ⏰ Response: ${responseTime}`;
 
     const formattedMessage = useFontFormatting ? formatResponse(defaultMessage) : defaultMessage;
