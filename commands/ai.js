@@ -47,8 +47,7 @@ const handleChatResponse = async (senderId, input, pageAccessToken) => {
     const defaultMessage = `🤖 • JayChat
 ・───────────・
  ${response}
-
-📤 Message/Add Developer : www.facebook.com/JayCantFinddd`;
+`;
 
     const formattedMessage = useFontFormatting ? formatResponse(defaultMessage) : defaultMessage;
 
