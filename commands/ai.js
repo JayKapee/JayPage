@@ -9,7 +9,7 @@ const useFontFormatting = false;
 module.exports = {
   name: 'ai',
   description: 'Interact to JayChat.',
-  author: 'Jay Ar', // API by Kenlie Navacilla Jugarap
+  author: 'Jay Ar', // API by Kaiz Api
 
   async execute(senderId, args) {
     const pageAccessToken = token;
@@ -32,7 +32,7 @@ module.exports = {
 };
 
 const handleChatResponse = async (senderId, input, pageAccessToken) => {
-  const apiUrl = "https://api.kenliejugarap.com/freegpt-openai/?";
+  const apiUrl = "https://kaiz-apis.gleeze.com/api/hercai?ask=hi&uid=1?";
 
   try {
     const { data } = await axios.get(apiUrl, { params: { question: input } });
