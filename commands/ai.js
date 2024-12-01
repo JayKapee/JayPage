@@ -9,7 +9,7 @@ const useFontFormatting = true;
 module.exports = {
   name: 'ai',
   description: 'Interact to Free GPT - OpenAI.',
-  author: 'Arn', // API by Kenlie Navacilla Jugarap
+  author: 'Jay', // API by Kenlie Navacilla Jugarap
 
   async execute(senderId, args) {
     const pageAccessToken = token;
@@ -22,7 +22,7 @@ module.exports = {
     }
 
     if (query === "sino creator mo?" || query === "who created you?") {
-      const jokeMessage = "Arn/Rynx Gaiser";
+      const jokeMessage = "Jay Ar na gwapo kaayu tapos wlay tulog pag gabie sige ra silag chat ni Liang Li";
       const formattedMessage = useFontFormatting ? formatResponse(jokeMessage) : jokeMessage;
       return await sendMessage(senderId, { text: formattedMessage }, pageAccessToken);
     }
