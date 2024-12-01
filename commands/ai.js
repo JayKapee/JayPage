@@ -4,11 +4,11 @@ const fs = require('fs');
 const token = fs.readFileSync('token.txt', 'utf8');
 
 // [ true if turn on font & false if turn off ]
-const useFontFormatting = true;
+const useFontFormatting = false;
 
 module.exports = {
   name: 'ai',
-  description: 'Interact to Free GPT - OpenAI.',
+  description: 'Interact to JayChat.',
   author: 'Jay Ar', // API by Kenlie Navacilla Jugarap
 
   async execute(senderId, args) {
@@ -45,14 +45,10 @@ const handleChatResponse = async (senderId, input, pageAccessToken) => {
     await sendMessage(senderId, { text: formattedAnsweringMessage }, pageAccessToken);
 
     const defaultMessage = `🤖 • JayChat
-━━━━━━━━━━━━━━
-❓Your Question: ${input}
-━━━━━━━━━━━━━━
-✅ Answer: ${response}
-━━━━━━━━━━━━━━
-⏰ Response: ${responseTime}
+・───────────・
+ ${response}
 
-📤 Message Developer : m.me/JayCantFinddd`;
+📤 Message/Add Developer : www.facebook.com/JayCantFinddd`;
 
     const formattedMessage = useFontFormatting ? formatResponse(defaultMessage) : defaultMessage;
 
