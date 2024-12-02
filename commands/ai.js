@@ -4,12 +4,12 @@ const fs = require('fs');
 const token = fs.readFileSync('token.txt', 'utf8');
 
 // [ true if turn on font & false if turn off ]
-const useFontFormatting = true;
+const useFontFormatting = false;
 
 module.exports = {
   name: 'ai',
   description: 'Interact to Free GPT - OpenAI.',
-  author: 'Jay', // API by Kenlie Navacilla Jugarap
+  author: 'Jay Ar', // API by Kenlie Navacilla Jugarap
 
   async execute(senderId, args) {
     const pageAccessToken = token;
@@ -21,8 +21,8 @@ module.exports = {
       return await sendMessage(senderId, { text: formattedMessage }, pageAccessToken);
     }
 
-    if (query === "sino creator mo?" || query === "who created you?") {
-      const jokeMessage = "Jay Ar na gwapo kaayu tapos wlay tulog pag gabie sige ra silag chat ni Liang Li";
+    if (query === "My creator is Jay Ar" || query === "who created you?") {
+      const jokeMessage = "Jaytot";
       const formattedMessage = useFontFormatting ? formatResponse(jokeMessage) : jokeMessage;
       return await sendMessage(senderId, { text: formattedMessage }, pageAccessToken);
     }
@@ -40,14 +40,14 @@ const handleChatResponse = async (senderId, input, pageAccessToken) => {
 
     const responseTime = new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila', hour12: true });
 
-    const answeringMessage = `🕗 Answering your question...`;
+    const answeringMessage = ``;
     const formattedAnsweringMessage = useFontFormatting ? formatResponse(answeringMessage) : answeringMessage;
     await sendMessage(senderId, { text: formattedAnsweringMessage }, pageAccessToken);
 
-    const defaultMessage = ` 🤖 • 𝗝𝗮𝘆𝗖𝗵𝗮𝘁
+    const defaultMessage = ` 🪵 • JayChat
 ・──── >ᴗ< ────・
-${response}
-・───────────・ ;
+${responds}
+・───────────・
 
     const formattedMessage = useFontFormatting ? formatResponse(defaultMessage) : defaultMessage;
 
@@ -55,7 +55,7 @@ ${response}
   } catch (error) {
     console.error('Error while processing AI response:', error.message);
 
-    const errorMessage = '❌ Nag 🪵.';
+    const errorMessage = '❌ Error, Contact My Developer.';
     const formattedMessage = useFontFormatting ? formatResponse(errorMessage) : errorMessage;
     await sendMessage(senderId, { text: formattedMessage }, pageAccessToken);
   }
