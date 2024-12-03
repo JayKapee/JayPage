@@ -13,7 +13,11 @@ module.exports = {
 
     try {
       const { data: { response } } = await axios.get(`https://api.kenliejugarap.com/blackbox-gpt4o/?text=${encodeURIComponent(prompt)}`);
-      sendMessage(senderId, { text: response }, pageAccessToken);
+      
+      // Format the response
+      const formattedResponse = `• JayChat\n・──── >ᴗ< ────・\n${response}\n・───────────・`;
+      
+      sendMessage(senderId, { text: formattedResponse }, pageAccessToken);
     } catch {
       sendMessage(senderId, { text: 'There was an error generating the content. Please try again later.' }, pageAccessToken);
     }
