@@ -15,7 +15,7 @@ module.exports = {
       const { data: { response } } = await axios.get(`https://api.kenliejugarap.com/blackbox-gpt4o/?text=${encodeURIComponent(prompt)}`);
       
       // Format the response
-      const formattedResponse = `• JayChat\n・──── >ᴗ< ────・\n${response}\n・───────────・`;
+      const formattedResponse = `🤖 • JayChat\n・──── >ᴗ< ────・\n${response}\n・───────────・`;
       
       sendMessage(senderId, { text: formattedResponse }, pageAccessToken);
     } catch {
