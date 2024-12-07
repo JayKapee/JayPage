@@ -4,7 +4,7 @@ const { sendMessage } = require('../handles/sendMessage');
 module.exports = {
   name: "gemini",
   description: "interact to google gemini",
-  author: "developer",
+  author: "Jay Ar",
 
   async execute(senderId, args, pageAccessToken, event, imageUrl) {
     const userPrompt = args.join(" ").trim();
