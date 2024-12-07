@@ -4,7 +4,7 @@ const { sendMessage } = require('../handles/sendMessage');
 module.exports = {
   name: "gemini",
   description: "interact to google gemini",
-  author: "Jay Ar",
+  author: "developer",
 
   async execute(senderId, args, pageAccessToken, event, imageUrl) {
     const userPrompt = args.join(" ").trim();
@@ -60,8 +60,7 @@ module.exports = {
   }
 };
 
-async function handleGeminiRequest(apiUrl, prompt, imageUrl
-) {
+async function handleGeminiRequest(apiUrl, prompt, imageUrl) {
   const { data } = await axios.get(apiUrl, {
     params: {
       ask: prompt,
@@ -105,14 +104,4 @@ function splitMessageIntoChunks(message, chunkSize) {
     chunks.push(message.slice(i, i + chunkSize));
   }
   return chunks;
-}
-
-// Configuration message
-const configMessage = `
-🤖 • JayChat - GeminiJay
-・──── >ᴗ< ────・
-${responds}
-・───────────・
-`;
-
-console.log(configMessage);
+            }
