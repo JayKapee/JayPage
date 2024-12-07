@@ -1,50 +1,55 @@
-const fs = require("fs");
-const path = require("path");
+const fs = require('fs');
+const path = require('path');
+const { sendMessage } = require('../handles/sendMessage');
 
-module.exports.config = {
-  name: "help",
-  author: "Kenlie Jugarap",
-  version: "1.0",
-  category: "utility",
-  description: "Sends a back greeting message and lists all commands and events.",
-  adminOnly: false,
-  usePrefix: true,
-  cooldown: 5
-};
+module.exports = {
+  name: 'help',
+  description: 'Show available commands',
+  usage: 'help\nhelp [command name]',
+  author: 'System',
+  execute(senderId, args, pageAccessToken) {
+    const commandsDir = path.join(__dirname, '../commands');
+    const commandFiles = fs.readdirSync(commandsDir).filter(file => file.endsWith('.js'));
 
-module.exports.run = function ({ event, args }) {
-  if (event.type === "message" || event.postback.payload === "HELP_PAYLOAD") {
-    const commandsPath = path.join(__dirname, "../commands");
-
-    const commandFiles = fs
-      .readdirSync(commandsPath)
-      .filter((file) => file.endsWith(".js"));
-
-    const categorizedCommands = {};
-
-    // Categorize commands
-    commandFiles.forEach((file) => {
-      const command = require(path.join(commandsPath, file));
-      if (command.config) {
-        const category = command.config.category || "Uncategorized";
-        if (!categorizedCommands[category]) {
-          categorizedCommands[category] = [];
-        }
-        categorizedCommands[category].push(`${command.config.usePrefix ? PREFIX : ""}${command.config.name}`);
-      }
-    });
-
-    // Construct the message
-    let message = "";
-    Object.keys(categorizedCommands).forEach((category) => {
-      message += `◙◙ ${category} ◙◙\n`;
-      categorizedCommands[category].forEach((command) => {
-        message += `• ${command}\n`;
+    if (args.length > 0) {
+      const commandName = args[0].toLowerCase();
+      const commandFile = commandFiles.find(file => {
+        const command = require(path.join(commandsDir, file));
+        return command.name.toLowerCase() === commandName;
       });
-      message += "\n";
+
+      if (commandFile) {
+        const command = require(path.join(commandsDir, commandFile));
+        const commandDetails = `
+━━━━━━━━━━━━━━
+𝙲𝚘𝚖𝚖𝚊𝚗𝚍 𝙽𝚊𝚖𝚎: ${command.name}
+𝙳𝚎𝚜𝚌𝚛𝚒𝚋𝚝𝚒𝚘𝚗: ${command.description}
+𝚄𝚜𝚊𝚐𝚎: ${command.usage}
+━━━━━━━━━━━━━━`;
+        
+        sendMessage(senderId, { text: commandDetails }, pageAccessToken);
+      } else {
+        sendMessage(senderId, { text: `Command "${commandName}" not found.` }, pageAccessToken);
+      }
+      return;
+    }
+
+    const commands = commandFiles.map(file => {
+      const command = require(path.join(commandsDir, file));
+      return `│ - ${command.name}`;
     });
 
-    // Send the message to the user
-    api.sendMessage(message, event.sender.id);
+    const helpMessage = `
+━━━━━━━━━━━━━━
+𝙰𝚟𝚊𝚒𝚕𝚊𝚋𝚕𝚎 𝙲𝚘𝚖𝚖𝚊𝚗𝚍𝚜:
+╭─╼━━━━━━━━╾─╮
+${commands.join('\n')}
+╰─━━━━━━━━━╾─╯
+Chat -help [name] 
+to see command details.
+Contact my Owner : m.me/JayCantFinddd
+━━━━━━━━━━━━━━`;
+
+    sendMessage(senderId, { text: helpMessage }, pageAccessToken);
   }
 };
