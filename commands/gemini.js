@@ -45,9 +45,13 @@ module.exports = {
         hour12: true
       });
 
-      const message = `${result}`;
+      // Format the response
+      const formattedResponse = `🤖 • JayChat - Gemini
+・──── >ᴗ< ────・
+${result}
+・───────────・`;
 
-      await sendConcatenatedMessage(senderId, message, pageAccessToken);
+      await sendConcatenatedMessage(senderId, formattedResponse, pageAccessToken);
 
     } catch (error) {
       console.error("Error in Gemini command:", error);
@@ -104,4 +108,4 @@ function splitMessageIntoChunks(message, chunkSize) {
     chunks.push(message.slice(i, i + chunkSize));
   }
   return chunks;
-            }
+        }
